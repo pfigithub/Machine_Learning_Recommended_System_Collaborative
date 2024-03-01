@@ -98,8 +98,9 @@ pearsonDF['userId'] = pearsonDF.index
 pearsonDF.index = range(len(pearsonDF))
 pearsonDF.head()
 
-
-
+# top50 users similar
+topUsers=pearsonDF.sort_values(by='similarityIndex', ascending=False)[0:50]
+topUsers.head()
 
 
 
