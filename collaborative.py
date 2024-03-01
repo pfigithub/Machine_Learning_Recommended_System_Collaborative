@@ -62,3 +62,44 @@ userSubsetGroup = userSubset.groupby(['userId'])
 userSubsetGroup = sorted(userSubsetGroup,  key=lambda x: len(x[1]), reverse=True)
 userSubsetGroup = userSubsetGroup[0:100]
 
+# calculate between input user and subset group
+#Store the Pearson Correlation in a dictionary, where the key is the user Id and the value is the coefficient
+pearsonCorrelationDict = {}
+
+#For every user group in our subset
+for name, group in userSubsetGroup:
+    #Let's start by sorting the input and current user group so the values aren't mixed up later on
+    group = group.sort_values(by='movieId')
+    inputMovies = inputMovies.sort_values(by='movieId')
+    #Get the N for the formula
+    nRatings = len(group)
+    #Get the review scores for the movies that they both have in common
+    temp_df = inputMovies[inputMovies['movieId'].isin(group['movieId'].tolist())]
+    #And then store them in a temporary buffer variable in a list format to facilitate future calculations
+    tempRatingList = temp_df['rating'].tolist()
+    #Let's also put the current user group reviews in a list format
+    tempGroupList = group['rating'].tolist()
+    #Now let's calculate the pearson correlation between two users, so called, x and y
+    Sxx = sum([i**2 for i in tempRatingList]) - pow(sum(tempRatingList),2)/float(nRatings)
+    Syy = sum([i**2 for i in tempGroupList]) - pow(sum(tempGroupList),2)/float(nRatings)
+    Sxy = sum( i*j for i, j in zip(tempRatingList, tempGroupList)) - sum(tempRatingList)*sum(tempGroupList)/float(nRatings)
+    
+    #If the denominator is different than zero, then divide, else, 0 correlation.
+    if Sxx != 0 and Syy != 0:
+        pearsonCorrelationDict[name] = Sxy/sqrt(Sxx*Syy)
+    else:
+        pearsonCorrelationDict[name] = 0
+
+pearsonCorrelationDict.items()
+
+pearsonDF = pd.DataFrame.from_dict(pearsonCorrelationDict, orient='index')
+pearsonDF.columns = ['similarityIndex']
+pearsonDF['userId'] = pearsonDF.index
+pearsonDF.index = range(len(pearsonDF))
+pearsonDF.head()
+
+
+
+
+
+
