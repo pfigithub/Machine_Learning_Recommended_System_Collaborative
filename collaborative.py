@@ -109,3 +109,27 @@ topUsersRating.head()
 # Multiplies the similarity by the user's ratings
 topUsersRating['weightedRating'] = topUsersRating['similarityIndex']*topUsersRating['rating']
 topUsersRating.head()
+
+# Applies a sum to the topUsers after grouping it up by userId
+tempTopUsersRating = topUsersRating.groupby('movieId').sum()[['similarityIndex','weightedRating']]
+tempTopUsersRating.columns = ['sum_similarityIndex','sum_weightedRating']
+tempTopUsersRating.head()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
