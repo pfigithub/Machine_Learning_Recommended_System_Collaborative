@@ -122,6 +122,27 @@ recommendation_df['weighted average recommendation score'] = tempTopUsersRating[
 recommendation_df['movieId'] = tempTopUsersRating.index
 recommendation_df.head()
 
+# sort top 20 and check is in recommendation
+recommendation_df = recommendation_df.sort_values(by='weighted average recommendation score', ascending=False)
+movies_df.loc[movies_df['movieId'].isin(recommendation_df.head(10)['movieId'].tolist())]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
