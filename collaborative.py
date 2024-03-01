@@ -115,7 +115,12 @@ tempTopUsersRating = topUsersRating.groupby('movieId').sum()[['similarityIndex',
 tempTopUsersRating.columns = ['sum_similarityIndex','sum_weightedRating']
 tempTopUsersRating.head()
 
-
+#Creates an empty dataframe
+recommendation_df = pd.DataFrame()
+#Now we take the weighted average
+recommendation_df['weighted average recommendation score'] = tempTopUsersRating['sum_weightedRating']/tempTopUsersRating['sum_similarityIndex']
+recommendation_df['movieId'] = tempTopUsersRating.index
+recommendation_df.head()
 
 
 
