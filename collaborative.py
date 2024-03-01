@@ -102,5 +102,7 @@ pearsonDF.head()
 topUsers=pearsonDF.sort_values(by='similarityIndex', ascending=False)[0:50]
 topUsers.head()
 
-
+# rating of selected users to all movies
+topUsersRating=topUsers.merge(ratings_df, left_on='userId', right_on='userId', how='inner')
+topUsersRating.head()
 
