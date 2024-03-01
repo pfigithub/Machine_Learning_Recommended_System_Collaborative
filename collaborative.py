@@ -38,3 +38,27 @@ userInput = [
          ] 
 inputMovies = pd.DataFrame(userInput)
 inputMovies
+
+# add movie id to input user
+#Filtering out the movies by title
+inputId = movies_df[movies_df['title'].isin(inputMovies['title'].tolist())]
+#Then merging it so we can get the movieId. It's implicitly merging it by title.
+inputMovies = pd.merge(inputId, inputMovies)
+#Dropping information we won't use from the input dataframe
+inputMovies = inputMovies.drop('year', 1)
+#Final input dataframe
+#If a movie you added in above isn't here, then it might not be in the original 
+#dataframe or it might spelled differently, please check capitalisation.
+inputMovies
+
+#Filtering out users that have watched movies that the input has watched and storing it
+userSubset = ratings_df[ratings_df['movieId'].isin(inputMovies['movieId'].tolist())]
+userSubset.head()
+
+#Groupby creates several sub dataframes where they all have the same value in the column specified as the parameter
+userSubsetGroup = userSubset.groupby(['userId'])
+
+#Sorting it so users with movie most in common with the input will have priority
+userSubsetGroup = sorted(userSubsetGroup,  key=lambda x: len(x[1]), reverse=True)
+userSubsetGroup = userSubsetGroup[0:100]
+
