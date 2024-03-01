@@ -28,3 +28,13 @@ movies_df = movies_df.drop('genres', 1)
 #Drop removes a specified row or column from a dataframe
 ratings_df = ratings_df.drop('timestamp', 1)
 
+# user input for instance
+userInput = [
+            {'title':'Breakfast Club, The', 'rating':5},
+            {'title':'Toy Story', 'rating':3.5},
+            {'title':'Jumanji', 'rating':2},
+            {'title':"Pulp Fiction", 'rating':5},
+            {'title':'Akira', 'rating':4.5}
+         ] 
+inputMovies = pd.DataFrame(userInput)
+inputMovies
