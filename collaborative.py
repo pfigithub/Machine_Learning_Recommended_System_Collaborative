@@ -106,3 +106,6 @@ topUsers.head()
 topUsersRating=topUsers.merge(ratings_df, left_on='userId', right_on='userId', how='inner')
 topUsersRating.head()
 
+# Multiplies the similarity by the user's ratings
+topUsersRating['weightedRating'] = topUsersRating['similarityIndex']*topUsersRating['rating']
+topUsersRating.head()
